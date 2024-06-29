@@ -9,7 +9,7 @@ use Framework\App;
 
 $app = new App();
 
-$app->get('/phpiggy/public/', [HomeController::class, 'home']);
+$app->get('/', [HomeController::class, 'home']);
 
 $app->run();
 
