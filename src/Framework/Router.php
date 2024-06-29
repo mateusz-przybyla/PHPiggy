@@ -32,8 +32,6 @@ class Router
     $path = $this->normalizePath($path);
     $method = strtoupper($method);
 
-    echo $path . " + " . $method . "<br>";
-
     foreach ($this->routes as $route) {
       if (!preg_match("#^{$route['path']}$#", $path) || $route['method'] !== $method) {
         continue;
