@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Framework;
 
 use Framework\Exceptions\ContainerException;
-use ReflectionClass;
+use ReflectionClass, ReflectionNamedType;
 
 class Container
 {
@@ -34,6 +34,21 @@ class Container
 
     if (count($params) === 0) {
       return new $className;
+    }
+
+    $dependencies = [];
+
+    foreach ($params as $param) {
+      $name = $param->getName();
+      $type = $param->getType();
+
+      if (!$type) {
+        throw new ContainerException("Failed to resolve class {$className} because param {$name} is missing a type hint.");
+      }
+
+      if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
+        throw new ContainerException("Failed to resolve class {$className} bacause invalid param name.");
+      }
     }
 
     dd($params);
