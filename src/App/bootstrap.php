@@ -14,8 +14,6 @@ $app = new App(Paths::SOURCE . "App/container-definitions.php");
 $app->get('/', [HomeController::class, 'home']);
 $app->get('/about', [AboutController::class, 'about']);
 
-$app->run();
-
 registerMiddleware($app);
 
 return $app;
