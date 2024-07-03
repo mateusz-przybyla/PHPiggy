@@ -11,10 +11,15 @@ class TemplateDataMiddleware implements MiddlewareInterface
 {
   public function __construct(private TemplateEngine $view)
   {
+    echo "<br> --TemplateDataMiddleware::: ";
+    var_dump($this->view);
+    echo "<br>";
   }
 
   public function process(callable $next)
   {
-    echo "Template date middleware";
+    $this->view->addGlobal('title', 'Expense Tracking App');
+
+    $next();
   }
 }
