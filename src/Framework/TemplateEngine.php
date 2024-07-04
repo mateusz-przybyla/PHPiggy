@@ -30,7 +30,6 @@ class TemplateEngine
 
   public function resolve(string $path)
   {
-    echo "{$this->basePath}/{$path} . <br>";
     return "{$this->basePath}/{$path}";
   }
 

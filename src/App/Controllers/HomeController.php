@@ -10,9 +10,6 @@ class HomeController
 {
   public function __construct(private TemplateEngine $view)
   {
-    echo "<br> --HomeController::: ";
-    var_dump($this->view);
-    echo "<br>";
   }
 
   public function home()
