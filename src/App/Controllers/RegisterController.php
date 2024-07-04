@@ -12,8 +12,13 @@ class RegisterController
   {
   }
 
-  public function register()
+  public function registerView()
   {
     echo $this->view->render("register.php");
+  }
+
+  public function register()
+  {
+    dd($_POST);
   }
 }
