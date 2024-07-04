@@ -43,16 +43,6 @@ class Container
       $name = $param->getName();
       $type = $param->getType();
 
-      echo "<br>";
-      var_dump($name);
-      echo "<br><br>";
-      echo "<br>";
-      var_dump($type);
-      echo "<br><br>";
-      echo "<br>";
-      var_dump($type->getName());
-      echo "<br><br>";
-
       if (!$type) {
         throw new ContainerException("Failed to resolve class {$className} because param {$name} is missing a type hint.");
       }
@@ -62,11 +52,6 @@ class Container
       }
       $dependencies[] = $this->get($type->getName());
     }
-
-    echo "<br> --Dependencies::: ";
-    var_dump($dependencies);
-    echo "<br><br>";
-
     return $reflectionClass->newInstanceArgs($dependencies);
   }
 
@@ -84,10 +69,6 @@ class Container
     $dependency = $factory();
 
     $this->resolved[$id] = $dependency;
-
-    echo "<br> --Dependency:::";
-    var_dump($dependency);
-    echo "<br><br>";
 
     return $dependency;
   }

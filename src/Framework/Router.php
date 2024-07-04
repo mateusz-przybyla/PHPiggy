@@ -44,10 +44,6 @@ class Router
         $container->resolve($class) :
         new $class;
 
-      echo "<br> --ControllerInstance:::";
-      var_dump($controllerInstance);
-      echo "<br><br>";
-
       $action = fn () => $controllerInstance->$function();
 
       foreach ($this->middlewares as $middleware) {
