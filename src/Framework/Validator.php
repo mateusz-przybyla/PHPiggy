@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Framework;
+
+use Exception;
+use Framework\Contracts\RuleInterface;
+use Framework\Exceptions\ValidationException;
+use RuntimeException;
+
+class Validator
+{
+  private array $rules = [];
+
+  public function add(string $alias, RuleInterface $rule)
+  {
+    $this->rules[$alias] = $rule;
+  }
+
+  public function validate(array $formData, array $fields)
+  {
+    $errors = [];
+
+    foreach ($fields as $fieldName => $rules) {
+      foreach ($rules as $rule) {
+        $ruleValidator = $this->rules[$rule];
+
+        if ($ruleValidator->validate($formData, $fieldName, [])) {
+          continue;
+        }
+        $errors[$fieldName][] = $ruleValidator->getMessage($formData, $fieldName, []);
+      }
+    }
+
+    echo count($errors);
+
+    if (count($errors)) {
+      throw new ValidationException();
+    }
+  }
+}
