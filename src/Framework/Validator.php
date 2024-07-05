@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Framework;
 
+use Exception;
 use Framework\Contracts\RuleInterface;
+use Framework\Exceptions\ValidationException;
+use RuntimeException;
 
 class Validator
 {
@@ -19,7 +22,6 @@ class Validator
   {
     $errors = [];
 
-
     foreach ($fields as $fieldName => $rules) {
       foreach ($rules as $rule) {
         $ruleValidator = $this->rules[$rule];
@@ -31,8 +33,10 @@ class Validator
       }
     }
 
+    echo count($errors);
+
     if (count($errors)) {
-      dd($errors);
+      throw new ValidationException();
     }
   }
 }
