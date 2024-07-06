@@ -33,10 +33,8 @@ class Validator
       }
     }
 
-    echo count($errors);
-
     if (count($errors)) {
-      throw new ValidationException();
+      throw new ValidationException($errors);
     }
   }
 }
