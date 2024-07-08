@@ -28,4 +28,8 @@ $db = new Database('mysql', [
   'dbname' => 'phpiggy'
 ], 'root', '');
 
-echo "Connected to database";
+$query = "SELECT * FROM products";
+
+$stmt = $db->connection->query($query);
+
+var_dump($stmt->fetchAll());
