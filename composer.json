@@ -11,5 +11,8 @@
     "files": [
       "src/App/Config/Middleware.php"
     ]
+  },
+  "scripts": {
+    "phpiggy": "php cli.php"
   }
 }

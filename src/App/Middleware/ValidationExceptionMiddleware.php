@@ -21,7 +21,6 @@ class ValidationExceptionMiddleware implements MiddlewareInterface
         $oldFormData,
         array_flip($excludedFields)
       );
-      dd($formattedFormData);
 
       $_SESSION['errors'] = $e->errors;
       $_SESSION['oldFormData'] = $formattedFormData;
