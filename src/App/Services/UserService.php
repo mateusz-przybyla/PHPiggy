@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Exception;
 use Framework\Database;
 use Framework\Exceptions\ValidationException;
 
@@ -22,7 +21,7 @@ class UserService
     )->count();
 
     if ($emailCount > 0) {
-      throw new ValidationException(['email' => 'Email taken']);
+      throw new ValidationException(['email' => ['Email taken!']]);
     }
   }
 
