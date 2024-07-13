@@ -21,21 +21,44 @@ class UserService
     )->count();
 
     if ($emailCount > 0) {
-      throw new ValidationException(['email' => ['Email taken!']]);
+      throw new ValidationException(['email' => ['Email taken.']]);
     }
   }
 
   public function createNewUser(array $formData)
   {
+    $password = password_hash($formData['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+
     $this->db->query(
       "INSERT INTO `users` (`email`, `password`, `age`, `country`, `social_media_url`) VALUES (:email, :password, :age, :country, :social_media_url)",
       [
         'email' => $formData['email'],
-        'password' => $formData['password'],
+        'password' => $password,
         'age' => $formData['age'],
         'country' => $formData['country'],
         'social_media_url' => $formData['socialMediaURL']
       ]
     );
+  }
+
+  public function verifyLoginData(array $formData)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM `users` WHERE `email` = :email",
+      ['email' => $formData['email']]
+    );
+
+    $user = $query->retrieve();
+
+    $passwordMatch = password_verify(
+      $formData['password'],
+      $user['password'] ?? ''
+    );
+
+    if (!$user || !$passwordMatch) {
+      throw new ValidationException(['password' => ['Invalid credentials.']]);
+    }
+
+    $_SESSION['user'] = $user['id'];
   }
 }
