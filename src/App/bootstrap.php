@@ -23,6 +23,7 @@ $app->get('/register', [AuthController::class, 'registerView'])->add(GuestOnlyMi
 $app->post('/register', [AuthController::class, 'register'])->add(GuestOnlyMiddleware::class);
 $app->get('/login', [AuthController::class, 'loginView'])->add(GuestOnlyMiddleware::class);
 $app->post('/login', [AuthController::class, 'login'])->add(GuestOnlyMiddleware::class);
+$app->get('/logout', [AuthController::class, 'logout'])->add(AuthRequiredMiddleware::class);
 
 registerMiddleware($app);
 
