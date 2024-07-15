@@ -76,7 +76,7 @@ include $this->resolve("partials/_header.php");
           </td>
           <!-- Date -->
           <td class="p-4 text-sm text-gray-600">
-            <?php echo e($transaction['date']); ?>
+            <?php echo e($transaction['formatted_date']); ?>
           </td>
           <!-- Actions -->
           <td class="p-4 text-sm text-gray-600 flex justify-center space-x-2">
