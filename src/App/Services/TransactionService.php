@@ -26,4 +26,14 @@ class TransactionService
       ]
     );
   }
+
+  public function getUserTransaction()
+  {
+    $transactions = $this->db->query(
+      "SELECT * FROM `transactions` WHERE `user_id` = :user_id",
+      ['user_id' => $_SESSION['user']]
+    )->retrieveAll();
+
+    return $transactions;
+  }
 }
