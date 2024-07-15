@@ -9,8 +9,10 @@ use App\Services\ValidatorService;
 
 class TransactionController
 {
-  public function __construct(private TemplateEngine $view)
-  {
+  public function __construct(
+    private TemplateEngine $view,
+    private ValidatorService $validatorService
+  ) {
   }
 
   public function createView()
@@ -20,5 +22,6 @@ class TransactionController
 
   public function create()
   {
+    $this->validatorService->validateTransaction($_POST);
   }
 }
