@@ -21,11 +21,35 @@ class HomeController
     $page = (int) $page;
     $length = 2;
     $offset = ($page - 1) * $length;
+    $searchTerm = $_GET['s'] ?? null;
 
-    $transactions = $this->transactionService->getUserTransaction($length, $offset);
+    [$transactions, $count] = $this->transactionService->getUserTransaction($length, $offset);
+
+    $lastPage = ceil($count / $length);
+    $pages = $lastPage ? range(1, $lastPage) : [];
+
+    $pageLinks = array_map(
+      fn ($pageNum) => http_build_query([
+        'p' => $pageNum,
+        's' => $searchTerm
+      ]),
+      $pages
+    );
 
     echo $this->view->render("index.php", [
-      'transactions' => $transactions
+      'transactions' => $transactions,
+      'currentPage' => $page,
+      'previousPageQuery' => http_build_query([
+        'p' => $page - 1,
+        's' => $searchTerm
+      ]),
+      'lastPage' => $lastPage,
+      'nextPageQuery' => http_build_query([
+        'p' => $page + 1,
+        's' => $searchTerm
+      ]),
+      'pageLinks' => $pageLinks,
+      'searchTerm' => $searchTerm
     ]);
   }
 }
