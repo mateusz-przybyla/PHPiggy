@@ -27,7 +27,7 @@ class TransactionService
     );
   }
 
-  public function getUserTransaction(int $length, int $offset)
+  public function getUserTransactions(int $length, int $offset)
   {
     $searchTerm = addcslashes($_GET['s'] ?? '', '%_');
     $params = [
@@ -36,7 +36,7 @@ class TransactionService
     ];
 
     $transactions = $this->db->query(
-      "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS `formatted_date`
+      "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS formatted_date
       FROM `transactions`
       WHERE `user_id` = :user_id 
       AND `description` LIKE :description
@@ -53,5 +53,36 @@ class TransactionService
     )->count();
 
     return [$transactions, $transactionCount];
+  }
+
+  public function getUserTransaction(string $id)
+  {
+    return $this->db->query(
+      "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS formatted_date
+      FROM `transactions`
+      WHERE id = :id AND user_id = :user_id",
+      [
+        'id' => $id,
+        'user_id' => $_SESSION['user']
+      ]
+    )->retrieve();
+  }
+
+  public function update(array $formData, int $id)
+  {
+    $formattedDate = "{$formData['date']} 00:00:00";
+
+    $this->db->query(
+      "UPDATE `transactions`
+      SET `description` = :description, `amount` = :amount, `date` = :date
+      WHERE `id` = :id AND `user_id` = :user_id",
+      [
+        'description' => $formData['description'],
+        'amount' => $formData['amount'],
+        'date' => $formattedDate,
+        'id' => $id,
+        'user_id' => $_SESSION['user']
+      ]
+    );
   }
 }

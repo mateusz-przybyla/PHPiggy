@@ -23,7 +23,7 @@ class HomeController
     $offset = ($page - 1) * $length;
     $searchTerm = $_GET['s'] ?? null;
 
-    [$transactions, $count] = $this->transactionService->getUserTransaction($length, $offset);
+    [$transactions, $count] = $this->transactionService->getUserTransactions($length, $offset);
 
     $lastPage = ceil($count / $length);
     $pages = $lastPage ? range(1, $lastPage) : [];
