@@ -19,7 +19,7 @@ class TransactionService
     $this->db->query(
       "INSERT INTO `transactions` (`user_id`, `description`, `amount`, `date`) VALUES (:user_id, :description, :amount, :date)",
       [
-        'user_id' => &$_SESSION['user'],
+        'user_id' => $_SESSION['user'],
         'description' => $formData['description'],
         'amount' => $formData['amount'],
         'date' => $formattedDate
@@ -27,13 +27,20 @@ class TransactionService
     );
   }
 
-  public function getUserTransaction()
+  public function getUserTransaction(int $length, int $offset)
   {
+    $searchTerm = addcslashes($_GET['s'] ?? '', '%_');
+
     $transactions = $this->db->query(
       "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') AS `formatted_date`
       FROM `transactions`
-      WHERE `user_id` = :user_id",
-      ['user_id' => $_SESSION['user']]
+      WHERE `user_id` = :user_id 
+      AND `description` LIKE :description
+      LIMIT {$length} OFFSET {$offset}",
+      [
+        'user_id' => $_SESSION['user'],
+        'description' => "%{$searchTerm}%"
+      ]
     )->retrieveAll();
 
     return $transactions;
