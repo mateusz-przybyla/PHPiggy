@@ -44,6 +44,20 @@ class TransactionService
       $params
     )->retrieveAll();
 
+    $transactions = array_map(
+      function (array $transaction) {
+        $transaction['receipts'] = $this->db->query(
+          "SELECT * FROM `receipts` WHERE `transaction_id` = :transaction_id",
+          [
+            'transaction_id' => $transaction['id']
+          ]
+        )->retrieveAll();
+
+        return $transaction;
+      },
+      $transactions
+    );
+
     $transactionCount = $this->db->query(
       "SELECT COUNT(*)
       FROM `transactions`
