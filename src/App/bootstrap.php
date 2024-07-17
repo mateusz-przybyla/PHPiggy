@@ -9,7 +9,8 @@ use App\Controllers\{
   HomeController,
   AboutController,
   AuthController,
-  TransactionController
+  TransactionController,
+  ReceiptController
 };
 use Dotenv\Dotenv;
 use Framework\App;
@@ -37,6 +38,8 @@ $app->post('/transaction', [TransactionController::class, 'create'])->add(AuthRe
 $app->get('/transaction/{transaction}', [TransactionController::class, 'editView']);
 $app->post('/transaction/{transaction}', [TransactionController::class, 'edit']);
 $app->delete('/transaction/{transaction}', [TransactionController::class, 'delete']);
+$app->get('/transaction/{transaction}/receipt', [ReceiptController::class, 'uploadView']);
+$app->post('/transaction/{transaction}/receipt', [ReceiptController::class, 'upload']);
 
 registerMiddleware($app);
 
