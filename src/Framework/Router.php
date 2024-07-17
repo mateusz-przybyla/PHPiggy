@@ -57,19 +57,19 @@ class Router
         $container->resolve($class) :
         new $class;
 
-      $action = fn () => $controllerInstance->$function($params);
+      $action = fn () => $controllerInstance->$function($params); //recursion (main content)
 
-      $allMiddleware = [...$route['middlewares'], ...$this->middlewares];
+      $allMiddleware = [...$route['middlewares'], ...$this->middlewares]; //alternative solution is merge_array()
 
       foreach ($allMiddleware as $middleware) {
         $middlewareInstance = $container ?
           $container->resolve($middleware) :
           new $middleware;
 
-        $action = fn () => $middlewareInstance->process($action);
+        $action = fn () => $middlewareInstance->process($action); //recursion (before main content)
       }
 
-      $action();
+      $action(); //start the chain of functions
 
       return;
     }

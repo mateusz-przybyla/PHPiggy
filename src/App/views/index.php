@@ -58,7 +58,7 @@ include $this->resolve("partials/_header.php");
           </td>
           <!-- Receipt List -->
           <td class="p-4 text-sm text-gray-600">
-            <?php foreach ($transactions['receipts'] as $receipt) : ?>
+            <?php foreach ($transaction['receipts'] as $receipt) : ?>
               <div class="inline-block relative cursor-pointer">
                 <a href="/transaction/<?php echo e($transaction['id']); ?>/receipt/<?php echo e($receipt['id']); ?>">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="rgb(109 40 217)" class="w-10 h-10">

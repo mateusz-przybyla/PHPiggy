@@ -47,7 +47,7 @@ class TransactionService
     $transactions = array_map(
       function (array $transaction) {
         $transaction['receipts'] = $this->db->query(
-          "SELECT * FROM `receipts` WHERE `transacion_id` = :transaction_id",
+          "SELECT * FROM `receipts` WHERE `transaction_id` = :transaction_id",
           [
             'transaction_id' => $transaction['id']
           ]
