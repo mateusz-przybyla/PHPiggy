@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use Framework\TemplateEngine;
-use App\Services\{TransactionService};
+use App\Services\{
+  TransactionService,
+  ReceiptService
+};
 
 class ReceiptController
 {
   public function __construct(
     private TemplateEngine $view,
-    private TransactionService $transactionService
+    private TransactionService $transactionService,
+    private ReceiptService $receiptService
   ) {
   }
 
@@ -33,6 +37,10 @@ class ReceiptController
     if (!$transaction) {
       redirectTo("/");
     }
+
+    $receiptFile = $_FILES['receipt'] ?? null;
+
+    $this->receiptService->validateFile($receiptFile);
 
     redirectTo("/");
   }
