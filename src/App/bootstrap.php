@@ -10,7 +10,8 @@ use App\Controllers\{
   AboutController,
   AuthController,
   TransactionController,
-  ReceiptController
+  ReceiptController,
+  ErrorController
 };
 use Dotenv\Dotenv;
 use Framework\App;
@@ -42,6 +43,8 @@ $app->get('/transaction/{transaction}/receipt', [ReceiptController::class, 'uplo
 $app->post('/transaction/{transaction}/receipt', [ReceiptController::class, 'upload'])->add(AuthRequiredMiddleware::class);
 $app->get('/transaction/{transaction}/receipt/{receipt}', [ReceiptController::class, 'download'])->add(AuthRequiredMiddleware::class);
 $app->delete('/transaction/{transaction}/receipt/{receipt}', [ReceiptController::class, 'delete'])->add(AuthRequiredMiddleware::class);
+
+$app->setErrorHandler([ErrorController::class, 'notFound']);
 
 registerMiddleware($app);
 
